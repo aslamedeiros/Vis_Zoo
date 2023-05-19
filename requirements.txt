@@ -1,0 +1,8 @@
+altair
+numpy
+pandas
+vega-datasets
+unidecode
+openpyxl
+jsonschema==3.2
+streamlit
