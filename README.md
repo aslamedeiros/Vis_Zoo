@@ -1,4 +1,4 @@
-# Server Viz_Zoo
+# Server Vis_Zoo
 Neste Repositório se encontra o código com o Server "VizZoo"
 
 Para criar um ambiente que suporte o server:
