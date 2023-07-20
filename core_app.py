@@ -135,8 +135,8 @@ def core_app(app_version, custom):
       create_chart_space = graphs_space[st.selectbox(label='choose a spatial graph', options=list(graphs_space.keys()))]
 
     # filtering data according to all selectors
-    #filtered_data = filter_data(data, list_filter_out, time1, time2)
-    filtered_data=data
+    filtered_data = filter_data(data, list_filter_out, time1, time2)
+    #filtered_data=data
     # creating the charts using the filtered data
     chart_time = create_chart_time(filtered_data, app_version, (families, orders))
     chart_space1 = geographic_alt(filtered_data, app_version, (families, orders))

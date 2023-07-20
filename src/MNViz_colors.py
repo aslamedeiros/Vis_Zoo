@@ -470,7 +470,7 @@ cores_familia_annelida = {'Magelonidae': '#e2efda',
  'Flabelligeridae': '#f4b084',
  'Orbiniidae': '#ed7d31',
  'Megascolecidae': '#c65911',
- 'Sipunculidae': '#833c0c',
+ #'Sipunculidae': '#833c0c',
  'Aspidosiphonidae': '#833c0c',
  'Non-identified': '#000000'}
 

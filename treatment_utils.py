@@ -85,10 +85,13 @@ def lost_in_fire(description):
 #from a column of first_name and a column of last_name, creates a new full_name columns and erases the two previous columns
 def create_column_full_name(data:pd.DataFrame, column_first_name, column_last_name, column_full_name):
 
+    def capitalize(a):
+        return a.title().strip()
+    
     data[column_first_name] = data[column_first_name].fillna('') ###
     data[column_last_name] = data[column_last_name].fillna('') ###
 
-    data[column_first_name] = data[column_first_name].apply(treat_names)
+    data[column_first_name] = data[column_first_name].apply(capitalize) ### treat_names
     data[column_last_name] = data[column_last_name].apply(treat_names, args=['last'])
 
     data[column_full_name] = data[column_first_name].astype(str).str.strip() + ' ' + data[column_last_name].astype(str).str.strip()

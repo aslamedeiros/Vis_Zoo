@@ -85,7 +85,7 @@ column_dict_crustacea = {
   'region':{'type': str, 'file_name': 'County', 'selected': True},
   'lost_in_fire':{'type': int, 'file_name': '', 'selected': False},
   'year_determined':{'type': int, 'file_name': '', 'selected': True},
-  'author_full':{'type': str, 'file_name': '', 'selected': False},
+  'author_full':{'type': str, 'file_name': 'Species Author Name 1', 'selected': True},
   'first_author':{'type': str, 'file_name': '', 'selected': False},
   'infraorder':{'type': str, 'file_name': 'Infraorder1', 'selected': True},
   'locality':{'type': str, 'file_name': 'Locality Name', 'selected': True},
