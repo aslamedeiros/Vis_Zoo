@@ -25,12 +25,12 @@ def filter_data(data:pd.DataFrame, list_filter_out, time1, time2):
   return filtered_data
 
 # this functions creates color_palettes for orders and families 
-def create_color_palettes(data, app_version):
+def create_color_palettes(data, app_version , base = ''):
 
   if app_version == 'reptiles':
     core_family = cores_familia_reptiles
     core_ordem = cores_ordem
-  elif app_version == 'crustaceas':
+  elif app_version == 'crustaceas' and base == 'Decapoda':
     core_family = cores_familia_crustacea
     core_ordem = cores_infraordem
   elif app_version == 'polychaeta':

@@ -12,6 +12,7 @@ alt.data_transformers.enable('default', max_rows=None)
 
 
 def typeY_by_timeX(db,app_version,colors):
+    # Transform Data
     teste = db[['min_depth','family','order', 'year_cataloged', 'qualifier', 'catalog_number', 
                   'genus', 'species', 'type_status']].copy()
 
@@ -33,15 +34,23 @@ def typeY_by_timeX(db,app_version,colors):
 
     if x_labels[0]==0:
         x_labels=x_labels[1:]
-    # x_labels = x_labels + ['N/A']
-    # base.year_cataloged.replace(0,'N/A', inplace=True)
-    # db.year_cataloged.replace(0,'N/A', inplace=True)
-    # base.year_cataloged.fillna('N/A')
-    # db.year_cataloged.fillna('N/A')
 
+    # Base Info
+    colorBase = alt.Color('family:N', title='Family',
+                        scale= alt.Scale(domain=y_labels, range=[colors[0][a] for a in y_labels]),
+                        legend= None)
+    sizeBase = alt.Size('counts:Q', title='Counts', scale=alt.Scale(domain= counts, range=[30,270]),legend= None)
+    shapeBase = alt.Shape('type_status:N', title='Types', legend= None,)
+    tooltipBase = [alt.Tooltip('family', title='family'),
+                alt.Tooltip('type_status', title='type'),
+                alt.Tooltip('year_cataloged', title='year_cataloged'),
+                alt.Tooltip('counts', title='#registers')]
+    orderBase = alt.Order('types_status:N', sort='descending')  # smaller points in front
 
-    select_all = alt.selection_multi(fields = ['type_status','year_cataloged', 'family', 'order'], empty='none')#,on="mouseover")
+    # Select
+    select_all = alt.selection_multi(fields = ['type_status','year_cataloged', 'family', 'order'], empty='none')
 
+    # Graphs
     tipo = alt.Chart(base, height=40, width= 400, title='Types per Family').mark_point(filled=False).encode(
         x = alt.X('year_cataloged:O', title='',
                 scale= alt.Scale(domain=x_labels),
@@ -50,22 +59,8 @@ def typeY_by_timeX(db,app_version,colors):
             title=y_labels[0],
             axis=alt.Axis(ticks=False, grid=True,gridOpacity=0.1,labels=False,titleAngle=0,titleAlign='right',domain=False),
             scale=alt.Scale(),),
-        color= alt.Color('family:N', title='Family',
-                        scale= alt.Scale(domain=y_labels, 
-                                        range=[colors[0][a] for a in y_labels]),
-                        legend= None),#alt.Legend(columns=2, symbolLimit=102,orient= 'right')), 
-        size= alt.Size('counts:Q', title='Counts', scale=alt.Scale(domain= counts, range=[30,270]),
-                    legend= None), #alt.Legend(orient= 'right', direction= 'horizontal')),
-        order= alt.Order('type_status', sort='descending'),  # smaller points in front
-        shape= alt.Shape('type_status:N', title='Types', 
-                        legend= None,#alt.Legend(columns=4,orient='right'),
-                        #scale= alt.Scale(domain=['Holotype', 'Neotype','Paratype'],
-                        #                range=['triangle', 'square', 'cross'])
-                        ),
-        tooltip= [alt.Tooltip('family', title='family'),
-                alt.Tooltip('type_status', title='type'),
-                alt.Tooltip('year_cataloged', title='year_cataloged'),
-                alt.Tooltip('counts', title='#registers')]
+        color= colorBase, size= sizeBase, order= orderBase, 
+        shape= shapeBase, tooltip= tooltipBase,
     ).transform_window(
         id='rank()',
         groupby=['family','year_cataloged'],
@@ -83,24 +78,8 @@ def typeY_by_timeX(db,app_version,colors):
             title=y_labels[a+1],
             axis=alt.Axis(ticks=False, grid=True,gridOpacity=0.1,labels=False,titleAngle=0,titleAlign='right',domain=False),
             scale=alt.Scale(),),
-            color= alt.Color('family:N', title='Family',
-                        scale= alt.Scale(domain=y_labels, 
-                                        range=[colors[0][a] for a in y_labels]),
-                        #legend= alt.Legend(columns=2, symbolLimit=102,orient= 'left')
-                            ), 
-        size= alt.Size('counts:Q', title='Counts', scale=alt.Scale(domain= counts, range=[30,270]),
-                    #legend= alt.Legend(orient= 'left', direction= 'horizontal')
-                    ),
-        order= alt.Order('type_status', sort='descending'),  # smaller points in front
-        shape= alt.Shape('type_status:N', title='Types', 
-                        #legend= alt.Legend(columns=4),
-                        #scale= alt.Scale(domain=['Holotype', 'Neotype','Paratype'],
-                        #                range=['triangle', 'square', 'cross'])
-                        ),
-        tooltip= [alt.Tooltip('family', title='family'),
-                alt.Tooltip('type_status', title='type'),
-                alt.Tooltip('year_cataloged', title='year_cataloged'),
-                alt.Tooltip('counts', title='#registers')]
+        color= colorBase, size= sizeBase, order= orderBase,
+        shape= shapeBase, tooltip= tooltipBase,
         ).transform_window(
         id='rank()',
         groupby=['family','year_cataloged'],
@@ -124,24 +103,8 @@ def typeY_by_timeX(db,app_version,colors):
             title=y_labels[a+2],
             axis=alt.Axis(ticks=False, grid=True,gridOpacity=0.1,labels=False,titleAngle=0,titleAlign='right',domain=False),
             scale=alt.Scale(),),
-            color= alt.Color('family:N', title='Family',
-                        scale= alt.Scale(domain=y_labels, 
-                                        range=[colors[0][a] for a in y_labels]),
-                        #legend= alt.Legend(columns=2, symbolLimit=102,orient='left')
-                            ), 
-        size= alt.Size('counts:Q', title='Counts', scale=alt.Scale(domain= counts, range=[30,270]),
-                    #legend= alt.Legend(orient= 'left', direction= 'horizontal')
-                    ),
-        order= alt.Order('type_status', sort='descending'),  # smaller points in front
-        shape= alt.Shape('type_status:N', title='Types', 
-                        #legend= alt.Legend(columns=4),
-                        #scale= alt.Scale(domain=['Holotype', 'Neotype','Paratype'],
-                        #                range=['triangle', 'square', 'cross'])
-                        ),
-        tooltip= [alt.Tooltip('family', title='family'),
-                alt.Tooltip('type_status', title='type'),
-                alt.Tooltip('year_cataloged', title='year_cataloged'),
-                alt.Tooltip('counts', title='#registers')]
+        color= colorBase, size= sizeBase, order= orderBase,
+        shape= shapeBase, tooltip= tooltipBase,
         ).transform_window(
         id='rank()',
         groupby=['family','year_cataloged'],
@@ -156,72 +119,50 @@ def typeY_by_timeX(db,app_version,colors):
         
     tipo = alt.vconcat(tipo,t1,spacing=-50)
 
-    varX = 'family'
-    varY = 'year_cataloged'
-    varColor =  'family'
-
+    # Part II
     point = alt.Chart(db,height=400, width=10).mark_point(opacity=0.7,size=30,filled=False).encode(
             y=alt.Y("id:O",
                 title=None,
-                axis=alt.Axis(ticks=False, grid=True,gridOpacity=0.3,domain=False,labels=False),
-                scale=alt.Scale(#reverse=True
-                ),
-                ),
-            x=alt.X('family', type='ordinal',title=None,#scale= alt.Scale(domain=['n']),
+                axis=alt.Axis(ticks=False, grid=True,gridOpacity=0.3,domain=False,labels=False),                ),
+            x=alt.X('family', type='ordinal',title=None,
                     axis=alt.Axis(grid=True,gridOpacity=0.3,domain=False,ticks=False,labels=False)),
-            color= alt.Color(varColor, type ='nominal', title='Family', 
-                            scale=alt.Scale(domain=y_labels, 
-                                        range=[colors[0][a] for a in y_labels]),
-                            #legend= alt.Legend(columns=2, symbolLimit= 58,orient='bottom-left')
-                            ),
-            shape= alt.Shape('type_status:N', title='Types', 
-                        #legend= alt.Legend(columns=4),
-                        #scale= alt.Scale(domain=['Holotype', 'Neotype','Paratype'],
-                        #                range=['triangle', 'square', 'cross'])
-                        ),
-            tooltip= alt.Tooltip([varY, varX,  'family', 'genus', 'species'  ,'catalog_number','type_status'])
+            color= colorBase,
+            shape= shapeBase,
+            tooltip= alt.Tooltip(['year_cataloged', 'family', 'genus', 'species'  ,'catalog_number','type_status'])
             ).transform_window(
             id='rank()',
-            groupby=[varY,varX]
+            groupby=['year_cataloged','family']
             ).add_selection(select_family).transform_filter(select_all)
 
     regs = alt.Chart(db,height=401,width=80).mark_text(opacity=0.7,).encode(
             y=alt.Y("id:O",
                 title=None,
                 axis=alt.Axis(ticks=False, grid=True,gridOpacity=0.3,domain=False,labels=False),
-                #scale=alt.Scale(reverse=True),
                 ),
-            #x=alt.X(varX, type='ordinal',title=None,#scale= alt.Scale(domain= x_labels),
-            #        axis=alt.Axis(grid=False,gridOpacity=0.3,domain=False,ticks=False,labels=False)),
             text='catalog_number',
-            tooltip= alt.Tooltip([varY, varX,  'family', 'genus', 'species'  ,'catalog_number','type_status'])
+            tooltip= alt.Tooltip(['year_cataloged', 'family',  'family', 'genus', 'species'  ,'catalog_number','type_status'])
             ).transform_window(
             id='rank()',
-            groupby=[varY,varX]
+            groupby=['year_cataloged','family']
             ).transform_filter(select_all)
 
     regs_auth = alt.Chart(db,height=401,width=150).mark_text(opacity=0.7,).encode(
             y=alt.Y("id:O",
                 title=None,
                 axis=alt.Axis(ticks=False, grid=True,gridOpacity=0.3,domain=False,labels=False),
-                #scale=alt.Scale(reverse=True),
                 ),
-            #x=alt.X(varX, type='ordinal',title=None,#scale= alt.Scale(domain= x_labels),
-            #        axis=alt.Axis(grid=False,gridOpacity=0.3,domain=False,ticks=False,labels=False)),
             text='author_full',
-            tooltip= alt.Tooltip([varY, varX, 'family', 'genus', 'species'  ,'catalog_number','type_status'])
+            tooltip= alt.Tooltip(['year_cataloged', 'family', 'family', 'genus', 'species'  ,'catalog_number','type_status'])
             ).transform_window(
             id='rank()',
-            groupby=[varY,varX]
+            groupby=['year_cataloged','family']
             ).transform_filter(select_all)
 
-    # chart3 = alt.Chart(height=250, width=90+150+10).mark_circle(opacity=0)
-    chart5 = alt.Chart(db,height=30, width=90+150+10).mark_text(text='REGISTERS:',fontSize=20,align='right').transform_filter(select_all)
-    chart4 = alt.hconcat(point,regs,regs_auth,spacing=5)
+    chart2 = alt.Chart(db,height=30, width=90+150+10).mark_text(text='REGISTERS:',fontSize=20,align='right').transform_filter(select_all)
+    chart3 = alt.hconcat(point,regs,regs_auth,spacing=5)
 
-    #tipo = tipo|regs+point
-
-    tipo = alt.hconcat(tipo,alt.vconcat(chart5, chart4, spacing=5)
+    # Aggregate 
+    tipo = alt.hconcat(tipo,alt.vconcat(chart2, chart3, spacing=5)
            ).configure_title(fontSize=16).configure_axis(
         labelFontSize=12,
         titleFontSize=12

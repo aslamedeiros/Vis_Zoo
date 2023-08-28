@@ -13,7 +13,7 @@ def file_to_dataframe(state, app_version,base = ''):
         if app_version == 'reptiles':
             data = excel_to_dataframe_reptiles(file)
         elif app_version == 'crustaceas':
-            data = excel_to_dataframe_crustacea(file)
+            data = excel_to_dataframe_crustacea(file, suborder=base)
         elif app_version == 'polychaeta':
             data = excel_to_dataframe_polychaeta(file, base)
         elif app_version == 'annelida':
@@ -112,7 +112,7 @@ def excel_to_dataframe_reptiles(file):
 
 
 # function to go from the excel file to the pandas dataframe used for the app
-def excel_to_dataframe_crustacea(file):
+def excel_to_dataframe_crustacea(file, suborder = 'Decapoda'):
 
     excel = pd.ExcelFile(file)
     sheet_name = excel.sheet_names
@@ -178,7 +178,7 @@ def excel_to_dataframe_crustacea(file):
     # column selection for the resulting dataframe
     NewTable = crustacea[selected_columns]
 
-    NewTable = NewTable[NewTable['order'] == 'Decapoda']
+    NewTable = NewTable[NewTable['order'] == suborder]
 
     # apply new types with respect to NaN
     for (key,value) in dtypes.items():

@@ -89,8 +89,6 @@ column_dict_crustacea = {
   'first_author':{'type': str, 'file_name': '', 'selected': False},
   'infraorder':{'type': str, 'file_name': 'Infraorder1', 'selected': True},
   'locality':{'type': str, 'file_name': 'Locality Name', 'selected': True},
-
-
 }
 
 column_dict_polychaete = {

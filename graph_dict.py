@@ -94,7 +94,6 @@ def get_graph_dicts(app_version):
     graphs_time['determiner by time'] = time_catalogedX_determinatorY_dash
     graphs_time['type by time'] = typeY_by_timeX
 
-    graphs_time['colletor by time'] = collector_year_dash
     graphs_time['collection Registers by Top 50 collectors'] = timeX_collectorY_top50
     graphs_time['description Registers by Top 50 determiners'] = timeX_determinerY_top50
     graphs_time['collection Registers by collector'] = timeX_collectorY
@@ -132,6 +131,7 @@ def get_graph_dicts(app_version):
     graphs_time['Registers Family by country'] = timeX_family_countryY
     graphs_time['custom chart'] = custom_chart
     # graphs_time['seasonality'] = timeX_monthY
+    
     # graphs available in the "space" section
     graphs_space = dict()
     graphs_space['altitude per family'] = familyX_altitudeY

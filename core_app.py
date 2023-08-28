@@ -31,6 +31,11 @@ def core_app(app_version, custom):
       with right_side:
         base = st.selectbox(label='Base de Dados', options=['IBUFRJ','MNRJP'])
         st.session_state['base']=base
+    elif app_version == 'crustaceas':
+      orderList = ['Decapoda', 'Amphipoda', 'Anostraca', 'Diplostraca', 'Siphonostomatoida', 'Isopoda']
+      with right_side:
+        base = st.selectbox(label='Order', options=orderList)
+        st.session_state['base']=base
     else:
       st.session_state['base'] = False
 
@@ -50,7 +55,7 @@ def core_app(app_version, custom):
       # this sections plays when you just uploaded your data
 
       #loading the pandas dataframe from the excel or csv file provided
-      if app_version == 'polychaeta':
+      if app_version == 'polychaeta' or app_version == 'crustaceas':
         base = st.session_state['base']
         data = file_to_dataframe(st.session_state, app_version, base=base)
       else:
@@ -64,7 +69,7 @@ def core_app(app_version, custom):
 
       #color_palettes are loaded, if custom data is used, then a custom function creates the color palettes
       #otherwise, pre defined color palettes are used
-      colors = create_color_palettes(data, app_version)
+      colors = create_color_palettes(data, app_version, base=app_version=='crustaceas' and base or '')
       st.session_state['families'], st.session_state['orders'] = colors
 
       #components specific to the app version are initialised and stored in a list variable
@@ -136,7 +141,6 @@ def core_app(app_version, custom):
 
     # filtering data according to all selectors
     filtered_data = filter_data(data, list_filter_out, time1, time2)
-    #filtered_data=data
     # creating the charts using the filtered data
     chart_time = create_chart_time(filtered_data, app_version, (families, orders))
     chart_space1 = geographic_alt(filtered_data, app_version, (families, orders))
