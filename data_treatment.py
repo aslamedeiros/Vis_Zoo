@@ -86,6 +86,10 @@ def excel_to_dataframe_reptiles(file):
     reptiles['altitude'] = reptiles['MinAltitude'].str.extract('(\d+)')
     reptiles['max_altitude'] = reptiles['MaxAltitude'].str.extract('(\d+)')
 
+    # GAMBIARA Adjusting `Altitude` column
+    reptiles['min_depth'] = reptiles['MinAltitude'].str.extract('(\d+)')
+    reptiles['max_depth'] = reptiles['MaxAltitude'].str.extract('(\d+)')
+
     #regions treatment
     reptiles['region'] = reptiles['state'].apply(brazilian_region)
     

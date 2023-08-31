@@ -43,8 +43,11 @@ column_dict_reptiles = {
   'region':{'type': str, 'file_name': 'region', 'selected': True},
   'lost_in_fire':{'type': int, 'file_name': 'lost_in_fire', 'selected': True},
   'year_determined':{'type': int, 'file_name': 'year_determined', 'selected': True},
-  'author_full':{'type': str, 'file_name': 'author_full', 'selected': False},
+  'author_full':{'type': str, 'file_name': 'author_full', 'selected': True},
   'first_author':{'type': str, 'file_name': 'first_author', 'selected': False},
+  'locality':{'type': str, 'file_name': 'NomeDaLocalidade', 'selected': True},
+  'min_depth':{'type': float, 'file_name': 'altitude', 'selected': True}, ####
+  'max_depth':{'type': float, 'file_name': 'max_altitude', 'selected': True}, ###
 }
 
 

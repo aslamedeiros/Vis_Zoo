@@ -1,8 +1,8 @@
-altair
+altair<=4.2.2
 numpy
 pandas
 vega-datasets
 unidecode
 openpyxl
 jsonschema==3.2
-streamlit
+streamlit<=1.15.0

@@ -225,8 +225,8 @@ def time_catalogedX_determinatorY_dash(banco,app_version,colors):
     y_labels = sorting
     
     base.year_cataloged=base.year_cataloged.replace(20000,'N/A')
-    
-    x_labels=list(x_labels[:-1])+['N/A']
+    if list(x_labels[:-1]) == 20000:
+        x_labels=list(x_labels[:-1])+['N/A']
     
     registers = list(range(min(base.registers), max(base.registers)+50, 50))
     
@@ -283,7 +283,9 @@ def time_collectedX_collectorY_dash(db,app_version,colors):
     y_labels = sorting2
 
     teste.year_collected=teste.year_collected.replace(20000,'N/A')
-    x_labels=list(x_labels[:-1])+['N/A']
+    if x_labels[-1] == 20000:
+        x_labels=list(x_labels[:-1])+['N/A']
+        
     registers = list(range(min(teste['registers']), max(teste['registers'])+50, 50))
     
     for a in teste.family.unique():

@@ -16,6 +16,12 @@ def get_graph_dicts(app_version):
     # graphs available in the "time" section
 
     graphs_time = dict()
+
+    ### News
+    graphs_time['colletor by time'] = time_collectedX_collectorY_dash
+    graphs_time['determiner by time'] = time_catalogedX_determinatorY_dash
+    graphs_time['type by time'] = typeY_by_timeX
+
     graphs_time['collection Registers by Top 50 collectors'] = timeX_collectorY_top50
     graphs_time['description Registers by Top 50 determiners'] = timeX_determinerY_top50
     graphs_time['collection Registers by collector'] = timeX_collectorY
