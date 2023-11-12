@@ -122,12 +122,34 @@ def excel_to_dataframe_crustacea(file, suborder = 'Decapoda'):
     sheet_name = excel.sheet_names
 
     db = excel.parse(sheet_name[0], sep=';', encoding='utf-8-sig')
+    
+    #
+
+    # Pegar o dado atual
+    l1 = ['Class1','Order1','Suborder1','Infraorder1','Family1','Genus1','Species1','Qualifier1','Type Status1',
+          'Current 1','Determiner First Name1','Determiner Middle1','Determiner Last Name1','Determined Date1','Species Author1',]
+
+    l2 = ['Class2','Order2','Suborder2','Infraorder2','Family2','Genus2','Species2','Qualifier2','Type Status2',
+          'Current 2','Determiner First Name2','Determiner Middle2','Determiner Last Name2','Determined Date2','Species Author2']
+
+    d = db[db.Class2.notna()].drop(columns = l1).rename(columns={a:a[:-1]+'1' for a in l2})
+    b = db[db.Class2.isna()].drop(columns = l2).rename(columns={a:a[:-1]+'1' for a in l1})
+    
+    db = pd.concat([d,b]).sort_index()
+
+    #
 
     crustacea = db
     crustacea.columns = [str(col).replace(r'\n','') for col in crustacea.columns]
 
     names_col = {'determinator_full_name1': ['Determiner Last Name1', 'Determiner First Name1'],
-                'collector_full_name1': ['Collector Last Name1', 'Collector First Name1'],}
+                'collector_full_name1': ['Collector Last Name1', 'Collector First Name1'],
+                'collector_full_name2': ['Collector Last Name2', 'Collector First Name2'],
+                'collector_full_name3': ['Collector Last Name3', 'Collector First Name3'],
+                'collector_full_name4': ['Collector Last Name4', 'Collector First Name4'],
+                'collector_full_name5': ['Collector Last Name5', 'Collector First Name5'],
+                'collector_full_name6': ['Collector Last Name6', 'Collector First Name6'],
+                'collector_full_name7': ['Collector Last Name7', 'Collector First Name7'],}
     for key, value in names_col.items():
         crustacea = create_column_full_name(crustacea, value[1], value[0], key)
 
@@ -158,13 +180,13 @@ def excel_to_dataframe_crustacea(file, suborder = 'Decapoda'):
 
     # setting months and years  
         
-    crustacea['year_determined'] = crustacea['Determined Date1'].apply(catch_year)
-    crustacea['year_collected'] = crustacea['collected_date'].apply(catch_year)
-    crustacea['year_cataloged'] = crustacea['cataloged_date'].apply(catch_year)
+    crustacea['year_determined'] = crustacea['Determined Date1'].apply(catch_year,args=['-'])
+    crustacea['year_collected'] = crustacea['collected_date'].apply(catch_year,args=['-'])
+    crustacea['year_cataloged'] = crustacea['cataloged_date'].apply(catch_year,args=['-'])
 
-    crustacea['month_determined'] = crustacea['Determined Date1'].apply(catch_year, args=['/',True])
-    crustacea['month_collected'] = crustacea['collected_date'].apply(catch_year, args=['/',True])
-    crustacea['month_cataloged'] = crustacea['cataloged_date'].apply(catch_year, args=['/',True])
+    crustacea['month_determined'] = crustacea['Determined Date1'].apply(catch_year, args=['-',True])
+    crustacea['month_collected'] = crustacea['collected_date'].apply(catch_year, args=['-',True])
+    crustacea['month_cataloged'] = crustacea['cataloged_date'].apply(catch_year, args=['-',True])
     #regions treatment
     crustacea['region'] = crustacea['region'].apply(brazilian_region)
     
@@ -182,7 +204,8 @@ def excel_to_dataframe_crustacea(file, suborder = 'Decapoda'):
     # column selection for the resulting dataframe
     NewTable = crustacea[selected_columns]
 
-    NewTable = NewTable[NewTable['order'] == suborder]
+    if suborder:
+        NewTable = NewTable[NewTable['order'] == suborder]
 
     # apply new types with respect to NaN
     for (key,value) in dtypes.items():

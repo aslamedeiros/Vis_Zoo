@@ -101,7 +101,7 @@ def create_column_full_name(data:pd.DataFrame, column_first_name, column_last_na
     return data
     
 def correct_lat(l):
-    l = str(l).lower().replace(',','.').strip().replace('\n','')
+    l = str(l).lower().replace(',','.').replace('\n','').replace("'",' ').strip()
     
     if l == 'nan':
         return np.NAN
@@ -148,7 +148,7 @@ def correct_lat(l):
         return l
         
 def correct_long(l):
-    l = str(l).lower().replace(',','.').strip().replace('\n','')
+    l = str(l).lower().replace(',','.').replace('\n','').replace("'",' ').strip()
     
     if l == 'nan':
         return np.NAN

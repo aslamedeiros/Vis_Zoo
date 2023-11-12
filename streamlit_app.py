@@ -29,7 +29,7 @@ app_versions = [
 
 
 # beginning of app
-st.title('Viz_Zoo Tool')
+st.title('Vis_Zoo Tool')
 
 
 if 'app_version' not in st.session_state:
